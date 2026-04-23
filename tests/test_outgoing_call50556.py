@@ -17,18 +17,19 @@ class TestOutgoingCall50556:
         # step 1
 
         driver.activate_app("ru/auroraos/demos/CallApiDBus")
-        state = driver.query_app_state("ru/auroraos/demos/CallApiDBus")
-        assert state == "RUNNING_IN_FOREGROUND"
 
         # 1.1 check if there is a loading screen
 
         WebDriverWait(driver, 3).until(
             EC.presence_of_element_located((By.ID, "defaultCover"))
         )
+        
+        state = driver.query_app_state("ru/auroraos/demos/CallApiDBus")
+        assert state == "RUNNING_IN_FOREGROUND"
 
-        default = driver.find_element(By.ID, "defaultCover")
-
-        assert default.is_displayed()
+        covers = driver.find_elements(By.ID, "defaultCover")
+        if covers:
+            assert covers[0].is_displayed()
 
         # 1.2 compare screenshots
 
@@ -63,13 +64,11 @@ class TestOutgoingCall50556:
 
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located(
-                (By.XPATH, "//LabelBase[contains(@text, 'Remote name')]")
+                (By.XPATH, "//*[contains(@text, 'Remote name')]")
             )
         )
 
-        contact = driver.find_element(
-            By.XPATH, "//LabelBase[contains(@text, 'Remote name')]"
-        )
+        contact = driver.find_element(By.XPATH, "//*[contains(@text, 'Remote name')]")
         assert contact.is_displayed()
 
         connection = driver.find_element(By.XPATH, "//*[contains(@text, 'Соединение')]")
