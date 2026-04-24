@@ -4,7 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class TestIncomingCall50557:
+class TestCallScreen50558:
     def setup_method(self):
         self.driver = driver_init.create_driver()
         # create an appium driver for the tests :0
