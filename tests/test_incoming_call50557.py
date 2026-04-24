@@ -21,7 +21,7 @@ class TestIncomingCall50557:
 
         # I do not have access to the system elements,
         # but I could have used this If I did
-        driver.find_element(By.ID, "CallApiDBus").click()
+        # driver.find_element(By.ID, "CallApiDBus").click()
 
         # 1.1 the main page is displayed
 
