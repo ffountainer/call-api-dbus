@@ -204,12 +204,15 @@ class TestIncomingKeyboard53610:
 
         # 5.2
 
-        assert not speaker.is_displayed() 
-        assert not volume_off.is_displayed() 
-        assert not dbus_api.is_displayed() 
-        assert not keyboard.is_displayed()
-        assert not record.is_displayed()
-        assert not hold.is_displayed()
+        def is_present(xpath):
+            return len(driver.find_elements(By.XPATH, xpath)) > 0
+        
+        assert not is_present("//*[contains(@text, 'Динамик')]")
+        assert not is_present("//*[contains(@text, 'Откл. звук')]")
+        assert not is_present("//*[contains(@text, 'Call API DBus')]")
+        assert not is_present("//*[contains(@text, 'Клавиатура')]")
+        assert not is_present("//*[contains(@text, 'Запись')]")
+        assert not is_present("//*[contains(@text, 'Удержание')]")
 
         # 5.3
 
@@ -264,6 +267,13 @@ class TestIncomingKeyboard53610:
         )
 
         # 7.3
+
+        speaker = driver.find_element(By.XPATH, "//*[contains(@text, 'Динамик')]")
+        volume_off = driver.find_element(By.XPATH, "//*[contains(@text, 'Откл. звук')]")
+        dbus_api = driver.find_element(By.XPATH, "//*[contains(@text, 'Call API DBus')]")
+        keyboard = driver.find_element(By.XPATH, "//*[contains(@text, 'Клавиатура')]")
+        record = driver.find_element(By.XPATH, "//*[contains(@text, 'Запись')]")
+        hold = driver.find_element(By.XPATH, "//*[contains(@text, 'Удержание')]")
 
         assert speaker.is_displayed() and speaker.is_enabled()
         assert volume_off.is_displayed() and volume_off.is_enabled()
@@ -375,7 +385,7 @@ class TestIncomingKeyboard53610:
 
         # 11.4 
 
-        driver.screenshot("./../screenshots/actual/53609/return_to_main.png")
+        driver.screenshot("./../screenshots/actual/53610/return_to_main.png")
 
         # step 12
 

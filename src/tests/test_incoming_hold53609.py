@@ -222,7 +222,8 @@ class TestIncomingHold53609:
 
         # 6.2
 
-        assert re.match(r"^\d{2}:\d{2}:\d{2}$", element.text)
+        timer = driver.find_element(By.XPATH, "//*[contains(@text, ':')]")
+        assert re.match(r"^\d{2}:\d{2}:\d{2}$", timer.text)
 
         # 6.3 cannot check music
 

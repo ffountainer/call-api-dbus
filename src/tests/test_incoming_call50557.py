@@ -197,12 +197,12 @@ class TestIncomingCall50557:
 
         window_id = driver.execute_script(
             "appium:findWindowByElement",
-            {"strategy": By.XPATH, "value": "//*[contains(@text, 'Вызов завершен')]"},
+            {"strategy": By.XPATH, "value": "//*[contains(@text, 'Вызов завершён')]"},
         )
 
         driver.execute_script("appium:setWindow", {"windowId": window_id})
 
-        ended = driver.find_element(By.XPATH, "//*[contains(@text, 'Вызов завершен')]")
+        ended = driver.find_element(By.XPATH, "//*[contains(@text, 'Вызов завершён')]")
         assert ended.is_displayed()
 
         time_element = driver.find_element(
@@ -225,7 +225,7 @@ class TestIncomingCall50557:
         # 5.1
 
         elements = driver.find_elements(
-            By.XPATH, "//*[contains(@text, 'Вызов завершен')]"
+            By.XPATH, "//*[contains(@text, 'Вызов завершён')]"
         )
         assert len(elements) == 0
 
@@ -328,12 +328,12 @@ class TestIncomingCall50557:
 
         window_id = driver.execute_script(
             "appium:findWindowByElement",
-            {"strategy": By.XPATH, "value": "//*[contains(@text, 'Вызов завершен')]"},
+            {"strategy": By.XPATH, "value": "//*[contains(@text, 'Вызов завершён')]"},
         )
 
         driver.execute_script("appium:setWindow", {"windowId": window_id})
 
-        ended = driver.find_element(By.XPATH, "//*[contains(@text, 'Вызов завершен')]")
+        ended = driver.find_element(By.XPATH, "//*[contains(@text, 'Вызов завершён')]")
         assert ended.is_displayed()
 
         remote = driver.find_element(By.XPATH, "//*[contains(@text, 'Remote name')]")

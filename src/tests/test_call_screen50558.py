@@ -17,6 +17,10 @@ class TestCallScreen50558:
 
         driver.activate_app("ru/auroraos/demos/CallApiDBus")
 
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "incomingCallButton"))
+        )
+
         incoming = driver.find_element(By.ID, "incomingCallButton")
 
         incoming.click()

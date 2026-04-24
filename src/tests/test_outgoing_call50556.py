@@ -55,10 +55,6 @@ class TestOutgoingCall50556:
         # 1.4 compare screens
 
         driver.screenshot("./../screenshots/actual/main.png")
-        # assert compare_images(
-        #     "./../screenshots/expected/main_page.png",
-        #     "./../screenshots/actual/main.png",
-        # )
 
         # step 2
 
@@ -81,10 +77,6 @@ class TestOutgoingCall50556:
         # 2.2 compare screens
 
         driver.screenshot("./../screenshots/actual/connection.png")
-        # assert compare_images(
-        #     "./../screenshots/expected/connection.png",
-        #     "./../screenshots/actual/connection.png",
-        # )
 
         # check for started timer
         WebDriverWait(driver, 30).until(
@@ -94,10 +86,6 @@ class TestOutgoingCall50556:
         # 2.3 call answered
 
         driver.screenshot("./../screenshots/actual/call_page.png")
-        # assert compare_images(
-        #     "./../screenshots/expected/call_page.png",
-        #     "./../screenshots/actual/call_page.png",
-        # )
 
         # step 3
 
@@ -140,7 +128,3 @@ class TestOutgoingCall50556:
         # 3.4
 
         driver.screenshot("./../screenshots/actual/call_ended.png")
-        # assert compare_images(
-        #     "./../screenshots/expected/call_ended.png",
-        #     "./../screenshots/actual/call_ended.png",
-        # )
