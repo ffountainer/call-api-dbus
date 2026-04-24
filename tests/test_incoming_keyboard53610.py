@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import re
 
 
-class TestIncomingHold53609:
+class TestIncomingKeyboard53610:
     def setup_method(self):
         self.driver = driver_init.create_driver()
         # create an appium driver for the tests :0
@@ -77,19 +77,24 @@ class TestIncomingHold53609:
 
         # 1.4
 
-        driver.screenshot("./../screenshots/actual/53609/main_no_options.png")
+        driver.screenshot("./../screenshots/actual/53610/main_no_options.png")
 
         # step 2
 
-        hold_switch.click()
+        dtmf_switch.click()
 
         # 2.1
 
-        assert hold_switch.is_selected()
+        assert dtmf_switch.is_selected()
 
         # 2.2
 
-        driver.screenshot("./../screenshots/actual/53609/hold_on.png")
+        label = driver.find_element(By.XPATH, "//*[contains(@text, 'Текст DTMF')]")
+        assert label.is_displayed()
+
+        # 2.3
+
+        driver.screenshot("./../screenshots/actual/53610/keyboard_on.png")
 
         # step 3
 
@@ -119,7 +124,7 @@ class TestIncomingHold53609:
 
         # 3.4
 
-        driver.screenshot("./../screenshots/actual/53609/timer.png")
+        driver.screenshot("./../screenshots/actual/53610/timer.png")
 
         # 3.5
 
@@ -135,7 +140,7 @@ class TestIncomingHold53609:
 
         # 3.7
 
-        driver.screenshot("./../screenshots/actual/53609/start_incoming.png")
+        driver.screenshot("./../screenshots/actual/53610/start_incoming.png")
 
         # step 4
 
@@ -166,86 +171,128 @@ class TestIncomingHold53609:
         dbus_api = driver.find_element(
             By.XPATH, "//*[contains(@text, 'Call API DBus')]"
         )
+        keyboard = driver.find_element(By.XPATH, "//*[contains(@text, 'Клавиатура')]")
+        
+        assert speaker.is_displayed() and speaker.is_enabled()
+        assert volume_off.is_displayed() and volume_off.is_enabled()
+        assert dbus_api.is_displayed() and dbus_api.is_enabled()
+        assert keyboard.is_displayed() and keyboard.is_enabled()
+
+        # 4.6
+
         hold = driver.find_element(By.XPATH, "//*[contains(@text, 'Удержание')]")
+        record = driver.find_element(By.XPATH, "//*[contains(@text, 'Запись')]")
+        
+        assert record.is_displayed() and not record.is_enabled()
+        assert hold.is_displayed() and not hold.is_enabled()
+
+        # 4.7
+
+        driver.screenshot("./../screenshots/actual/53610/call_in_process.png")
+
+        # step 5
+
+        keyboard.click()
+
+        # 5.1
+
+        WebDriverWait(driver, 3).until(
+            EC.invisibility_of_element_located(
+                (By.XPATH, "//*[contains(@text, 'Remote name')]")
+            )
+        )
+
+        # 5.2
+
+        assert not speaker.is_displayed() 
+        assert not volume_off.is_displayed() 
+        assert not dbus_api.is_displayed() 
+        assert not keyboard.is_displayed()
+        assert not record.is_displayed()
+        assert not hold.is_displayed()
+
+        # 5.3
+
+        assert driver.is_keyboard_shown()
+
+        # 5.4
+
+        hide_button = driver.find_element(By.XPATH, "//*[contains(@text, 'Скрыть')]")
+
+        assert hide_button.is_displayed()
+
+        # 5.5
+
+        driver.screenshot("./../screenshots/actual/53610/keyboard_opened.png")
+
+        # step 6
+
+        driver.execute_script('app:enterCode', '*102#')
+
+        # 6.1
+
+        WebDriverWait(driver, 3).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//*[contains(@text, '*102#')]")
+            )
+        )
+
+        # 6.2
+
+        driver.screenshot("./../screenshots/actual/53610/entered_code.png")
+
+        # step 7
+
+        hide_button.click()
+
+        # 7.1
+
+        assert not driver.is_keyboard_shown()
+
+        WebDriverWait(driver, 3).until(
+            EC.invisibility_of_element_located(
+                (By.XPATH, "//*[contains(@text, '*102#')]")
+            )
+        )
+
+        # 7.2
+
+        WebDriverWait(driver, 3).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//*[contains(@text, 'Remote name')]")
+            )
+        )
+
+        # 7.3
 
         assert speaker.is_displayed() and speaker.is_enabled()
         assert volume_off.is_displayed() and volume_off.is_enabled()
         assert dbus_api.is_displayed() and dbus_api.is_enabled()
-        assert hold.is_displayed() and hold.is_enabled()
+        assert keyboard.is_displayed() and keyboard.is_enabled()
 
-        # 4.6
+        # 7.4
 
-        keyboard = driver.find_element(By.XPATH, "//*[contains(@text, 'Клавиатура')]")
-        record = driver.find_element(By.XPATH, "//*[contains(@text, 'Запись')]")
-
-        assert keyboard.is_displayed() and not keyboard.is_enabled()
         assert record.is_displayed() and not record.is_enabled()
+        assert hold.is_displayed() and not hold.is_enabled()
 
-        # 4.7
+        # 7.5
 
-        driver.screenshot("./../screenshots/actual/53609/call_in_process.png")
+        driver.screenshot("./../screenshots/actual/53610/keyboard_hidden.png")
 
-        # step 5
-
-        assert not hold.is_selected()
-
-        hold.click()
-
-        # 5.1
-
-        assert hold.is_selected()
-
-        # 5.2
-
-        on_hold = (By.XPATH, "//*[contains(@text, ':')]")
-
-        WebDriverWait(driver, 5).until(
-            EC.text_to_be_present_in_element(on_hold, "На удержании")
-        )
-
-        element = driver.find_element(*on_hold)
-        assert element.text == "На удержании"
-
-        # 5.3 cannot check music
-
-        # 5.4
-
-        driver.screenshot("./../screenshots/actual/53609/on_hold.png")
-
-        # step 6
-
-        hold.click()
-
-        # 6.1
-
-        assert not hold.is_selected()
-
-        # 6.2
-
-        assert re.match(r"^\d{2}:\d{2}:\d{2}$", element.text)
-
-        # 6.3 cannot check music
-
-        # 6.4
-
-        driver.screenshot("./../screenshots/actual/53609/back_to_call.png")
-
-        # step 7
+        # step 8
 
         # thats a system window and doesn't expose any text, so I cannot find it reliably...
         buttons = driver.find_elements(By.CLASS_NAME, "Button")
         buttons[-1].click()
 
-        # 7.1 call ended
+        # 8.1 call ended
 
         driver.execute_script("app:waitForPageChange", 3000)
-
-        # 7.2
 
         history = driver.find_element(By.XPATH, "//*[contains(@text, 'История')]")
         assert history.is_displayed()
 
-        # 7.3
+        # 8.2
 
         window_id = driver.execute_script(
             "appium:findWindowByElement",
@@ -265,40 +312,46 @@ class TestIncomingHold53609:
 
         assert re.match(r"^\d{2}:\d{2}:\d{2}$", time_text)
 
-        # 7.4
+        WebDriverWait(driver, 3).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//*[contains(@text, 'Remote name')]")
+            )
+        )
 
-        driver.screenshot("./../screenshots/actual/53609/call_ended.png")
+        # 8.3
 
-        # step 8
+        driver.screenshot("./../screenshots/actual/53610/call_ended.png")
+
+        # step 9
 
         button_close = driver.find_element(By.CLASS_NAME, "Button")
         button_close.click()
 
-        # 8.1
+        # 9.1
 
         elements = driver.find_elements(
             By.XPATH, "//*[contains(@text, 'Вызов завершен')]"
         )
         assert len(elements) == 0
 
-        # 8.2
+        # 9.2
 
-        driver.screenshot("./../screenshots/actual/53609/close_pop_up.png")
+        driver.screenshot("./../screenshots/actual/53610/close_pop_up.png")
 
-        # step 9
+        # step 10
 
         driver.execute_script("app:swipe", "up")
 
-        # 9.1 && 9.2
+        # 10.1 && 10.2
 
-        driver.screenshot("./../screenshots/actual/53609/home.png")
+        driver.screenshot("./../screenshots/actual/53610/home.png")
 
-        # step 10
+        # step 11
 
         widget = driver.find_element(By.XPATH, "//*[contains(@text, 'Call API DBus')]")
         widget.click()
 
-        # 10.1
+        # 11.1
 
         state = driver.query_app_state("ru.auroraos.demos/CallApiDBus")
         assert state == "RUNNING_IN_FOREGROUND"
@@ -310,23 +363,40 @@ class TestIncomingHold53609:
         main_page = driver.find_element(By.ID, "mainPage")
         assert main_page.is_displayed()
 
-        # 10.2
+        # 11.2
 
-        hold_second = driver.find_element(By.XPATH, "//*[contains(@text, 'Удержание')]")
-        assert hold_second.is_selected()
+        keyboard_second = driver.find_element(By.XPATH, "//*[contains(@text, 'DTMF')]")
+        assert keyboard_second.is_selected()
 
-        # 10.3
+        # 11.3
+
+        label = driver.find_element(By.XPATH, "//TextArea")
+        assert label.text == "*102#"    
+
+        # 11.4 
 
         driver.screenshot("./../screenshots/actual/53609/return_to_main.png")
 
-        # step 11
+        # step 12
 
-        hold_second.click()
+        keyboard_second.click()
 
-        # 11.1
+        # 12.1
 
-        assert not hold_second.is_selected()
+        assert not keyboard_second.is_selected()
 
-        # 11.2
+        # 12.2
 
-        driver.screenshot("./../screenshots/actual/53609/main_hold_off.png")
+        assert not driver.is_keyboard_shown()
+
+        # 11.3
+
+        driver.screenshot("./../screenshots/actual/53610/main_keyboard_off.png")
+
+
+
+
+        
+        
+
+
