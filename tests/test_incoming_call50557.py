@@ -170,9 +170,9 @@ class TestIncomingCall50557:
         record = driver.find_element(By.XPATH, "//*[contains(@text, 'Запись')]")
         hold = driver.find_element(By.XPATH, "//*[contains(@text, 'Удержание')]")
 
-        assert keyboard.is_displayed() and keyboard.is_enabled()
-        assert record.is_displayed() and record.is_enabled()
-        assert hold.is_displayed() and hold.is_enabled()
+        assert keyboard.is_displayed() and not keyboard.is_enabled()
+        assert record.is_displayed() and not record.is_enabled()
+        assert hold.is_displayed() and not hold.is_enabled()
 
         # 3.7
 
