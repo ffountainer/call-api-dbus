@@ -37,7 +37,7 @@ class TestOutgoingCall50556:
 
         # initially I wanted to try and compare screenshots directly
         # but understood that it was a bad idea
-        # since the test cases file do not contain many of them
+        # since the test cases file does not contain many of them
 
         # assert compare_images(
         #     "./../screenshots/expected/load.png", "./../screenshots/actual/load.png"
